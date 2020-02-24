@@ -2,13 +2,22 @@
 
 import UIKit
 
+protocol PinterestLayoutDelegate: AnyObject {}
+
+extension PinterestLayoutDelegate {
+    func collectionView(_ collectionView: UICollectionView, heightForDifferentCellsAtIndexPath indexPath: IndexPath) -> CGFloat {
+        return 0
+    }
+}
+
 public class SASPinterestLayout: UICollectionViewLayout {
   
-//  weak var delegate: PinterestLayoutDelegate?
+  weak var delegate: PinterestLayoutDelegate?
   public var numberOfColumns = 2
   public var cellPadding: CGFloat = 6
   public var cache: [UICollectionViewLayoutAttributes] = []
   public var contentHeight: CGFloat = 0
+  public var staticCellHeight: CGFloat = 0
 
   private var contentWidth: CGFloat {
     guard let collectionView = collectionView else { return 0 }
@@ -17,6 +26,8 @@ public class SASPinterestLayout: UICollectionViewLayout {
   }
 
   override public var collectionViewContentSize: CGSize {
+    print("contentHeight = \(contentHeight)")
+    
     return CGSize(width: contentWidth, height: contentHeight)
   }
   
@@ -25,6 +36,8 @@ public class SASPinterestLayout: UICollectionViewLayout {
     guard cache.isEmpty, let collectionView = collectionView else {return}
 
     let columnWidth = contentWidth / CGFloat(numberOfColumns)
+    
+    
     var xOffset: [CGFloat] = []
     
     for column in 0..<numberOfColumns {
@@ -37,7 +50,12 @@ public class SASPinterestLayout: UICollectionViewLayout {
     for item in 0..<collectionView.numberOfItems(inSection: 0) {
 
       let indexPath = IndexPath(item: item, section: 0)
-      let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: columnWidth)
+    
+      let cellHeight = delegate?.collectionView(collectionView, heightForDifferentCellsAtIndexPath: indexPath) ?? staticCellHeight
+        
+      let height = cellPadding * 2 + cellHeight
+        
+      let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
 
       let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
       let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
@@ -46,7 +64,7 @@ public class SASPinterestLayout: UICollectionViewLayout {
       contentHeight = max(contentHeight, frame.maxY)
       print("contentHeight = \(contentHeight)")
       
-      yOffset[column] = yOffset[column] + columnWidth
+      yOffset[column] = yOffset[column] + height
 
       column = column < (numberOfColumns - 1) ? (column + 1) : 0
         
