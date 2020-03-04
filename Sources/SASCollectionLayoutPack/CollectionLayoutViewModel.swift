@@ -32,13 +32,13 @@ public class CollectionLayoutViewModel: NSObject {
   
   public var pinLayout: SASPinterestLayout?
   public var collectionView: UICollectionView?
-  public var numberOfColoms: Int = 2
+  public var numberOfColumns: Int = 2
   public var staticCellHeight: CGFloat = 0
   
   let sectionInsets = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
-    public init(collectionView: UICollectionView, numberOfColoms: Int, staticCellHeight: CGFloat) {
+    public init(collectionView: UICollectionView, numberOfColumns: Int, staticCellHeight: CGFloat) {
     self.collectionView = collectionView
-    self.numberOfColoms = numberOfColoms
+    self.numberOfColumns = numberOfColumns
     self.staticCellHeight = staticCellHeight
   }
   
@@ -46,7 +46,7 @@ public class CollectionLayoutViewModel: NSObject {
     NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
     collectionView?.contentInset = sectionInsets
     if let layout = collectionView?.collectionViewLayout as? SASPinterestLayout {
-        layout.numberOfColumns = self.numberOfColoms
+        layout.numberOfColumns = self.numberOfColumns
         layout.staticCellHeight = staticCellHeight
         pinLayout = layout
     }
