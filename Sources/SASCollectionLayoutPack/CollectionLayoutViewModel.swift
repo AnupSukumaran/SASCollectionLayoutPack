@@ -31,16 +31,22 @@ import UIKit
 public class CollectionLayoutViewModel: NSObject {
   
   public var pinLayout: SASPinterestLayout?
+ // public var horizontallayout: SASPinterestLayoutHorizontal?
   public var collectionView: UICollectionView?
   public var numberOfColumns: Int = 2
   public var staticCellHeight: CGFloat = 0
   
-  let sectionInsets = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+    public static let shared = CollectionLayoutViewModel()
+    
+    public var sectionInsets = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+    
+    public override init() {}
+    
     public init(collectionView: UICollectionView, numberOfColumns: Int, staticCellHeight: CGFloat) {
-    self.collectionView = collectionView
-    self.numberOfColumns = numberOfColumns
-    self.staticCellHeight = staticCellHeight
-  }
+        self.collectionView = collectionView
+        self.numberOfColumns = numberOfColumns
+        self.staticCellHeight = staticCellHeight
+    }
   
   public func collectionViewFlowLayoutSetUp() {
     NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -51,6 +57,15 @@ public class CollectionLayoutViewModel: NSObject {
         pinLayout = layout
     }
   }
+    
+//    public func collectionViewFlowHorizontalLayoutSetUp() {
+//      NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChangeForHorizontal), name: UIDevice.orientationDidChangeNotification, object: nil)
+//      collectionView?.contentInset = sectionInsets
+//      if let layout = collectionView?.collectionViewLayout as? SASPinterestLayoutHorizontal {
+//          layout.staticCellHeight = staticCellHeight
+//          horizontallayout = layout
+//      }
+//    }
   
   @objc func orientationDidChange(notification: NSNotification) {
     pinLayout?.cache.removeAll()
@@ -58,5 +73,16 @@ public class CollectionLayoutViewModel: NSObject {
     collectionView!.collectionViewLayout.invalidateLayout()
     
   }
+    
+//    @objc func orientationDidChangeForHorizontal(notification: NSNotification) {
+//      horizontallayout?.cache.removeAll()
+////      horizontallayout?.contentHeight = 0
+//      collectionView!.collectionViewLayout.invalidateLayout()
+//      
+//    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
 }
