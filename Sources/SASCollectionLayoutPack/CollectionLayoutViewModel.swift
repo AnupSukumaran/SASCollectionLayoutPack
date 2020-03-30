@@ -42,10 +42,11 @@ public class CollectionLayoutViewModel: NSObject {
     
     public override init() {}
     
-    public init(collectionView: UICollectionView, numberOfColumns: Int, staticCellHeight: CGFloat) {
+    public init(collectionView: UICollectionView, numberOfColumns: Int, staticCellHeight: CGFloat, top: CGFloat = 3, left: CGFloat = 3, bottom: CGFloat = 3, right: CGFloat = 3 ) {
         self.collectionView = collectionView
         self.numberOfColumns = numberOfColumns
         self.staticCellHeight = staticCellHeight
+        sectionInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
     }
   
   public func collectionViewFlowLayoutSetUp() {

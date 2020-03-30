@@ -114,9 +114,9 @@ public class SASPinterestLayout: UICollectionViewLayout {
 
       let indexPath = IndexPath(item: item, section: 0)
     
-      let cellHeight = delegate?.collectionView(collectionView, heightForDifferentCellsAtIndexPath: indexPath) ?? staticCellHeight
+//      let cellHeight = delegate?.collectionView(collectionView, heightForDifferentCellsAtIndexPath: indexPath) ?? staticCellHeight
         
-      let height = cellPadding * 2 + cellHeight
+      let height = cellPadding * 2 + columnWidth + staticCellHeight
         
       let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
 
