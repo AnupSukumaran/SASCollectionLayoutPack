@@ -69,11 +69,15 @@ public class CollectionLayoutViewModel: NSObject {
 //    }
   
   @objc func orientationDidChange(notification: NSNotification) {
-    pinLayout?.cache.removeAll()
-    pinLayout?.contentHeight = 0
-    collectionView!.collectionViewLayout.invalidateLayout()
     
+    clearingLayout()
   }
+    
+    public func clearingLayout() {
+        pinLayout?.cache.removeAll()
+        pinLayout?.contentHeight = 0
+        collectionView!.collectionViewLayout.invalidateLayout()
+    }
     
 //    @objc func orientationDidChangeForHorizontal(notification: NSNotification) {
 //      horizontallayout?.cache.removeAll()
