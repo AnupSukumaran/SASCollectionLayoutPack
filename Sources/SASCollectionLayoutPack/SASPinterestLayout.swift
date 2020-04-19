@@ -126,7 +126,7 @@ public class SASPinterestLayout: UICollectionViewLayout {
       attributes.frame = insetFrame
       cache.append(attributes)
       contentHeight = max(contentHeight, frame.maxY)
-      print("contentHeight = \(contentHeight)")
+      
       
       yOffset[column] = yOffset[column] + height
 
