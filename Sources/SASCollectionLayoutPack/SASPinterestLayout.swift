@@ -90,8 +90,7 @@ public class SASPinterestLayout: UICollectionViewLayout {
   }
 
   override public var collectionViewContentSize: CGSize {
-    print("contentHeight = \(contentHeight)")
-    
+   
     return CGSize(width: contentWidth, height: contentHeight)
   }
   
