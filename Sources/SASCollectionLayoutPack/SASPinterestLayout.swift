@@ -78,7 +78,7 @@ public class SASPinterestLayout: UICollectionViewLayout {
   
   weak var delegate: PinterestLayoutDelegate?
   public var numberOfColumns = 2
-  public var cellPadding: CGFloat = 6
+  public var cellPadding: CGFloat = 3
   public var cache: [UICollectionViewLayoutAttributes] = []
   public var contentHeight: CGFloat = 0
   public var staticCellHeight: CGFloat = 0
