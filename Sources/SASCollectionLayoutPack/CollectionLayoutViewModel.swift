@@ -27,6 +27,7 @@
 /// THE SOFTWARE.
 
 import UIKit
+import SASLogger
 
 public class CollectionLayoutViewModel: NSObject {
   
@@ -35,57 +36,45 @@ public class CollectionLayoutViewModel: NSObject {
   public var collectionView: UICollectionView?
   public var numberOfColumns: Int = 2
   public var staticCellHeight: CGFloat = 0
-  
+  public var collectionViewWidth: CGFloat?
     public static let shared = CollectionLayoutViewModel()
     
     public var sectionInsets = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
     
     public override init() {}
     
-    public init(collectionView: UICollectionView, numberOfColumns: Int, staticCellHeight: CGFloat, top: CGFloat = 3, left: CGFloat = 3, bottom: CGFloat = 3, right: CGFloat = 3 ) {
+    public init(collectionView: UICollectionView, numberOfColumns: Int, staticCellHeight: CGFloat, top: CGFloat = 3, left: CGFloat = 3, bottom: CGFloat = 3, right: CGFloat = 3, collectionViewWidth: CGFloat? = nil ) {
         self.collectionView = collectionView
         self.numberOfColumns = numberOfColumns
         self.staticCellHeight = staticCellHeight
+        self.collectionViewWidth = collectionViewWidth
         sectionInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
     }
   
-  public func collectionViewFlowLayoutSetUp() {
-    NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
-    collectionView?.contentInset = sectionInsets
-    if let layout = collectionView?.collectionViewLayout as? SASPinterestLayout {
-        layout.numberOfColumns = self.numberOfColumns
-        layout.staticCellHeight = staticCellHeight
-        pinLayout = layout
+    public func collectionViewFlowLayoutSetUp() {
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+        collectionView?.contentInset = sectionInsets
+        if let layout = collectionView?.collectionViewLayout as? SASPinterestLayout {
+            layout.numberOfColumns = self.numberOfColumns
+            Logger.p("SASCollWidth -fromPac- collectionViewWidth  = \(collectionViewWidth)")
+            layout.staticCellHeight = staticCellHeight
+            layout.collectionViewWidth = collectionViewWidth
+            pinLayout = layout
+        }
     }
-  }
     
-//    public func collectionViewFlowHorizontalLayoutSetUp() {
-//      NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChangeForHorizontal), name: UIDevice.orientationDidChangeNotification, object: nil)
-//      collectionView?.contentInset = sectionInsets
-//      if let layout = collectionView?.collectionViewLayout as? SASPinterestLayoutHorizontal {
-//          layout.staticCellHeight = staticCellHeight
-//          horizontallayout = layout
-//      }
-//    }
   
-  @objc func orientationDidChange(notification: NSNotification) {
-    
-    clearingLayout()
-  }
-    
+    @objc func orientationDidChange(notification: NSNotification) {
+
+        clearingLayout()
+    }
+
     public func clearingLayout() {
         pinLayout?.cache.removeAll()
         pinLayout?.contentHeight = 0
         collectionView!.collectionViewLayout.invalidateLayout()
     }
-    
-//    @objc func orientationDidChangeForHorizontal(notification: NSNotification) {
-//      horizontallayout?.cache.removeAll()
-////      horizontallayout?.contentHeight = 0
-//      collectionView!.collectionViewLayout.invalidateLayout()
-//      
-//    }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

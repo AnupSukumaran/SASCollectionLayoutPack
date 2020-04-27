@@ -21,13 +21,21 @@ public class SASPinterestLayout: UICollectionViewLayout {
   public var cache: [UICollectionViewLayoutAttributes] = []
   public var contentHeight: CGFloat = 0
   public var staticCellHeight: CGFloat = 0
-
+  public var collectionViewWidth: CGFloat?
+    
   private var contentWidth: CGFloat {
     guard let collectionView = collectionView else { return 0 }
+    
     let insets = collectionView.contentInset
-    Logger.p("SASHeight3 -fromPac- insets = \(insets)")
-    Logger.p("SASHeight4 -fromPac- collectionView.bounds.width  = \(collectionView.bounds.width )")
-    return collectionView.bounds.width - (insets.left + insets.right)
+    Logger.p("SASCollWidth -fromPac- insets = \(insets)")
+    Logger.p("SASCollWidth -fromPac- collectionViewWidth  = \(collectionViewWidth )")
+    
+    if let customWidth = collectionViewWidth {
+        return customWidth - (insets.left + insets.right)
+    }
+    
+     return collectionView.bounds.width - (insets.left + insets.right)
+    
   }
 
   override public var collectionViewContentSize: CGSize {
