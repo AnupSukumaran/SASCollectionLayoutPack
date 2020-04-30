@@ -33,6 +33,7 @@ public class CollectionLayoutViewModel: NSObject {
   
   public var pinLayout: SASPinterestLayout?
  // public var horizontallayout: SASPinterestLayoutHorizontal?
+  public var cellPadding: CGFloat = 3
   public var collectionView: UICollectionView?
   public var numberOfColumns: Int = 2
   public var staticCellHeight: CGFloat = 0
@@ -43,11 +44,12 @@ public class CollectionLayoutViewModel: NSObject {
     
     public override init() {}
     
-    public init(collectionView: UICollectionView, numberOfColumns: Int, staticCellHeight: CGFloat, top: CGFloat = 3, left: CGFloat = 3, bottom: CGFloat = 3, right: CGFloat = 3, collectionViewWidth: CGFloat? = nil ) {
+    public init(collectionView: UICollectionView, numberOfColumns: Int, staticCellHeight: CGFloat, top: CGFloat = 3, left: CGFloat = 3, bottom: CGFloat = 3, right: CGFloat = 3, collectionViewWidth: CGFloat? = nil, cellPadding: CGFloat = 3 ) {
         self.collectionView = collectionView
         self.numberOfColumns = numberOfColumns
         self.staticCellHeight = staticCellHeight
         self.collectionViewWidth = collectionViewWidth
+        self.cellPadding = cellPadding
         sectionInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
     }
   
@@ -56,7 +58,7 @@ public class CollectionLayoutViewModel: NSObject {
         collectionView?.contentInset = sectionInsets
         if let layout = collectionView?.collectionViewLayout as? SASPinterestLayout {
             layout.numberOfColumns = self.numberOfColumns
-            Logger.p("SASCollWidth -fromPac- collectionViewWidth  = \(collectionViewWidth)")
+            layout.cellPadding = cellPadding
             layout.staticCellHeight = staticCellHeight
             layout.collectionViewWidth = collectionViewWidth
             pinLayout = layout
