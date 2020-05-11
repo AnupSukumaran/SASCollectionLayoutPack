@@ -46,10 +46,8 @@ public class SASPinterestLayout: UICollectionViewLayout {
   override public func prepare() {
 
     guard cache.isEmpty, let collectionView = collectionView else {return}
-    Logger.p("SASHeight2 -fromPac- contentWidth = \(contentWidth)")
     
     let columnWidth = contentWidth / CGFloat(numberOfColumns)
-    Logger.p("SASHeight -fromPac- columnWidth = \(columnWidth)")
     
     var xOffset: [CGFloat] = []
     
